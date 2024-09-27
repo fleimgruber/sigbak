@@ -1,0 +1,18 @@
+.{
+    .name = "sigbak",
+    .version = "0.1.0",
+    .minimum_zig_version = "0.13.0",
+    .dependencies = .{
+        .sigbak = .{
+            .url = "https://github.com/tbvdm/sigbak/archive/39cdd9199cbd59b0ac54f30352b800bf990a96c3.tar.gz",
+            .hash = "12209c916f60bf396c4e2dda50993974ef3ac7b79a2c0fae0238b3f8dd84ecc70709",
+        },
+    },
+    .paths = .{
+        "FailStep.zig",
+        "build.zig",
+        "build.zig.zon",
+        "LICENSE",
+        "README.md",
+    },
+}

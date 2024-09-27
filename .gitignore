@@ -1,3 +1,6 @@
+.zig-cache
+.direnv
+
 *.[do]
 /*.pb-c.[ch]
 /sigbak
