@@ -84,6 +84,25 @@
 #endif
 
 /*
+ * MSYS2/MinWG64
+ */
+
+#ifdef __MINGW64__
+
+#define _GNU_SOURCE
+
+#define HAVE_ASPRINTF
+#define HAVE_BE32TOH
+#define HAVE_MKDIR
+#define MKDIR_TAKES_ONE_ARG
+#define HAVE_READPASSPHRASE
+
+#define UTIME_OMIT	-1L
+#define O_DIRECTORY 0L
+#define O_CLOEXEC 0L
+#endif
+
+/*
  * DragonFly BSD
  */
 

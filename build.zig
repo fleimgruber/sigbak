@@ -5,10 +5,17 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
     const version = std.SemanticVersion{ .major = 0, .minor = 1, .patch = 0 };
 
+    const t = target.result;
+
+    const protoc_program = switch (t.os.tag) {
+        .windows => "protoc",
+        else => "proto-c",
+    };
+
     var flags = std.BoundedArray([]const u8, 16){};
     flags.appendSliceAssumeCapacity(&EXE_FLAGS);
 
-    const protocc_run = b.addSystemCommand(&.{"protoc-c"});
+    const protocc_run = b.addSystemCommand(&.{protoc_program});
     protocc_run.addArgs(&.{"--c_out=."});
     protocc_run.addArgs(&PROTO_SOURCES);
 
@@ -30,9 +37,32 @@ pub fn build(b: *std.Build) void {
         .files = &PROTO_GENERATED_SOURCES,
         .flags = flags.constSlice(),
     });
-    sigbak_exe.linkSystemLibrary("libcrypto");
-    sigbak_exe.linkSystemLibrary("libprotobuf-c");
-    sigbak_exe.linkSystemLibrary("sqlite3");
+
+    switch (t.os.tag) {
+        .windows => {
+            sigbak_exe.addLibraryPath(std.Build.LazyPath{
+                .cwd_relative = "C:/Users/LeimgruberF/opt/msys64/mingw64/lib"
+            });
+            sigbak_exe.addIncludePath(std.Build.LazyPath{
+                .cwd_relative = "C:/Users/LeimgruberF/opt/msys64/mingw64/include"
+            });
+        },
+        else => {},
+    }
+
+    switch (t.os.tag) {
+        .windows => {
+            sigbak_exe.linkSystemLibrary("ssl");
+            sigbak_exe.linkSystemLibrary("protobuf-c");
+            sigbak_exe.linkSystemLibrary("sqlite3");
+        },
+        else => {
+            sigbak_exe.linkSystemLibrary("libcrypto");
+            sigbak_exe.linkSystemLibrary("libprotobuf-c");
+            sigbak_exe.linkSystemLibrary("sqlite3");
+        },
+    }
+
     sigbak_exe.linkLibC();
 
     sigbak_exe.step.dependOn(&protocc_run.step);

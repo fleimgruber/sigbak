@@ -138,4 +138,11 @@ void	*reallocarray(void *, size_t, size_t);
 int	 unveil(const char *, const char *);
 #endif
 
+/* ensure mkdir(pathname, mode) exists */
+#ifdef HAVE_MKDIR
+# ifdef MKDIR_TAKES_ONE_ARG
+#  define mkdir(a, b) _mkdir(a)
+# endif
+#endif
+
 #endif
