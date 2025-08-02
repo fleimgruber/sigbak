@@ -1,11 +1,24 @@
 .{
-    .name = "sigbak",
+    .name = .sigbak,
     .version = "0.1.0",
-    .minimum_zig_version = "0.13.0",
+    .minimum_zig_version = "0.14.1",
+    .fingerprint = 0xe372f932e3a2f21b,
     .dependencies = .{
         .sigbak = .{
             .url = "https://github.com/tbvdm/sigbak/archive/39cdd9199cbd59b0ac54f30352b800bf990a96c3.tar.gz",
             .hash = "12209c916f60bf396c4e2dda50993974ef3ac7b79a2c0fae0238b3f8dd84ecc70709",
+        },
+        .protobuf_c = .{
+            .url = "git+https://github.com/allyourcodebase/protobuf-c?ref=master#ae7587481485e615d3866861703d41d3efc22b82",
+            .hash = "1220f454bf9412333c5d21b8c21b323fc7e4e37b02341bf2fa49f110b8bc5d97c972",
+        },
+        .ssl = .{
+            .url = "git+https://github.com/kassane/openssl-zig?ref=zig-pkg#391fb556b5fe36be31965cc8986e884d0a0920ca",
+            .hash = "1220ec0c67fd2e80622942afc5b2b31c83fbbcd754680367e2e145b3e83d3693675b",
+        },
+        .sqlite = .{
+            .url = "https://github.com/vrischmann/zig-sqlite/archive/be8b4965b46fc1a7a819bf3cba09f370c0e9c64c.tar.gz",
+            .hash = "1220174fe738f537e414cb7ac8f38c40061fa788a0f1b44d759b383d8fe0ffc04a00",
         },
     },
     .paths = .{

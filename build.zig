@@ -40,21 +40,30 @@ pub fn build(b: *std.Build) void {
 
     switch (t.os.tag) {
         .windows => {
-            sigbak_exe.addLibraryPath(std.Build.LazyPath{
-                .cwd_relative = "C:/Users/LeimgruberF/opt/msys64/mingw64/lib"
-            });
-            sigbak_exe.addIncludePath(std.Build.LazyPath{
-                .cwd_relative = "C:/Users/LeimgruberF/opt/msys64/mingw64/include"
-            });
         },
         else => {},
     }
 
     switch (t.os.tag) {
         .windows => {
-            sigbak_exe.linkSystemLibrary("ssl");
-            sigbak_exe.linkSystemLibrary("protobuf-c");
-            sigbak_exe.linkSystemLibrary("sqlite3");
+            const protobuf_c_dep = b.dependency("protobuf_c", .{
+                .target = target,
+                .optimize = optimize,
+            });
+            sigbak_exe.linkLibrary(protobuf_c_dep.artifact("protobuf_c"));
+
+            const openssl_dep = b.dependency("ssl", .{
+                .target = target,
+                .optimize = optimize,
+            });
+            sigbak_exe.linkLibrary(openssl_dep.artifact("ssl"));
+
+            const sqlite = b.dependency("sqlite", .{
+                .target = target,
+                .optimize = optimize,
+                .fts5 = true,
+            });
+            sigbak_exe.linkLibrary(sqlite.artifact("sqlite"));
         },
         else => {
             sigbak_exe.linkSystemLibrary("libcrypto");
